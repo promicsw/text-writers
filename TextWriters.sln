@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{1BD6992F-A
 		Docs\IndentTextWriter.md = Docs\IndentTextWriter.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{5360010B-3507-47F5-9612-AEE74E320BFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextWriterExamples", "Examples\TextWriterExamples\TextWriterExamples.csproj", "{8D92B593-61E0-47EE-B9E9-46BDBB737831}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{CCA5E47B-F3AB-453F-B4ED-63BA08A94523}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCA5E47B-F3AB-453F-B4ED-63BA08A94523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCA5E47B-F3AB-453F-B4ED-63BA08A94523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D92B593-61E0-47EE-B9E9-46BDBB737831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D92B593-61E0-47EE-B9E9-46BDBB737831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D92B593-61E0-47EE-B9E9-46BDBB737831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D92B593-61E0-47EE-B9E9-46BDBB737831}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8D92B593-61E0-47EE-B9E9-46BDBB737831} = {5360010B-3507-47F5-9612-AEE74E320BFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5176ABB-8602-4E49-9E6A-1E438184E810}

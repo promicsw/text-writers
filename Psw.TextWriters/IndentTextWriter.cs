@@ -124,28 +124,52 @@ namespace Psw.TextWriters
             return this;
         }
 
-        // HTML Utilities -------------------------------------------
+        // Blocks ---------------------------------------------------
 
-        /// <group>HTML Utilities</group>
+        /// <group>Blocks</group>
         /// <summary>
-        /// Write Html formated output where content is indented and wrapped in the given tag (with optional attributes)
+        /// Write content (indented) and wrapped by the block open and close strings:<br/>
+        /// - If content is null: then the open and close will be written on a single line + newline
         /// </summary>
-        /// <param name="tag">Wrap content in the given tag with indenting</param>
-        /// <param name="attributes">Optional attributes for the opening tag</param>
+        /// <param name="open">Block opening text (typically "{")</param>
+        /// <param name="close">Block closing text (typically "}") </param>
         /// <param name="content">Build the nested content</param>
-        public IndentTextWriter HtmlTag(string tag, string attributes, Action<IndentTextWriter> content = null) {
-            WL($"<{tag}{(!string.IsNullOrEmpty(attributes) ? $" {attributes}" : "")}>");
-            if (content != null) {
-                Indent();
-                content(this);
-                Outdent();
+        public IndentTextWriter Block(string open, string close, Action<IndentTextWriter> content) {
+            if (content == null) WL($"{open}{close}");
+            else {
+                WL(open).Indent();
+                content?.Invoke(this);
+                Outdent().WL(close);
             }
-            WL($"</{tag}>");
             return this;
         }
 
         /// <summary>
-        /// Write Html formated output where content is indented and wrapped in the given tag (with no attributes)
+        /// Equivalent to: Block("{", "}", content) 
+        /// </summary>
+        public IndentTextWriter BlockCurly(Action<IndentTextWriter> content) => Block("{", "}", content);
+        /// <summary>
+        /// Equivalent to: Block("[", "]", content) 
+        /// </summary>
+        public IndentTextWriter BlockSquare(Action<IndentTextWriter> content) => Block("[", "]", content);
+
+        // HTML Utilities -------------------------------------------
+
+        /// <group>HTML Utilities</group>
+        /// <summary>
+        /// Write Html formated output where content is indented and wrapped in the given tag (with optional attributes)<br/>
+        /// - If content is null: then the empty tag be written on a single line + newline.
+        /// </summary>
+        /// <param name="tag">Wrap content in the given tag with indenting</param>
+        /// <param name="attributes">Optional attributes for the opening tag</param>
+        /// <param name="content">Build the nested content</param>
+        public IndentTextWriter HtmlTag(string tag, string attributes, Action<IndentTextWriter> content = null)
+            => Block($"<{tag}{(!string.IsNullOrEmpty(attributes) ? $" {attributes}" : "")}>", $"</{tag}>", content);
+
+
+        /// <summary>
+        /// Write Html formated output where content is indented and wrapped in the given tag (with no attributes)<br/>
+        /// - If content is null: then the empty tag be written on a single line + newline.
         /// </summary>
         /// <param name="tag">Wrap content in the given tag with indenting</param>
         /// <param name="content">Build the nested content</param>
