@@ -5,18 +5,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>IndentTextWriter</Title>
+    <Title>Text Writer</Title>
     <Authors>Andre Pretorius</Authors>
     <Company>Promic Software</Company>
-    <Description>A text writer for structured text generation with automatic indentation management via a fluent API.
-- Includes some methods for writing structured HTML with automatic tag management.</Description>
+    <Description>Text writer for structured text generation with indentation and HTML tag management via a fluent API.</Description>
     <Copyright>2023 Promic Software</Copyright>
     <PackageReadmeFile>Nuget.md</PackageReadmeFile>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/promicsw/text-writers</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <PackageTags>text-writer</PackageTags>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageTags>text-writer;C#;</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
