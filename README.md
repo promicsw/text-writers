@@ -1,8 +1,7 @@
 # Indent Text Writer
 
-Provides a text writer for structured text generation with automatic indentation management via a fluent API:
+A text writer for structured text generation with automatic indentation and HTML tag management via a fluent API:
 - Text is output to an internal or external StringBuffer.
-- Includes some methods for writing structured HTML with automatic tag management.
 - May be further extended to generate any kind of structured output.
 
 

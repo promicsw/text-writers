@@ -8,9 +8,8 @@ using System.Text;
 namespace Psw.TextWriters
 {
     /// <summary>
-    /// Provides a text writer for structured text generation with automatic indentation management via a fluent API:
+    /// Provides a text writer for structured text generation with automatic indentation and HTML tag management via a fluent API:
     /// - Text is output to an internal or external StringBuffer.
-    /// - Includes some methods for writing structured HTML with automatic tag management.
     /// - May be further extended to generate any kind of structured output.
     /// </summary>
     public class IndentTextWriter
@@ -27,18 +26,31 @@ namespace Psw.TextWriters
             IndentSize = indentSize;
         }
 
+        /// <group>Management</group>
         /// <summary>
         /// Get or set the default indent size
         /// </summary>
         public int IndentSize { get; set; }
 
-        /// <group>Properties</group>
         /// <summary>
         /// Get the attached or internal Output StringBuilder
         /// </summary>
         public StringBuilder Output { get; private set; }
 
-        /// <group>Core Methods</group>
+        /// <summary>
+        /// Return Output as a String
+        /// </summary>
+        public string AsString() => Output.ToString();
+
+        /// <summary>
+        /// Write Output to given file
+        /// </summary>
+        public IndentTextWriter SaveAs(string fileName) {
+            File.WriteAllText(fileName, AsString());
+            return this;
+        }
+
+        /// <group>Writing</group>
         /// <summary>
         /// Perform an Indent with given or default (indent = -1) indent size.<br/>
         /// - Adds a newline if not currently at a newline.
@@ -111,18 +123,7 @@ namespace Psw.TextWriters
         /// </summary>
         public string EscapeText(string text) => text.Replace("\"", "\\\"");
 
-        /// <summary>
-        /// Return Output as a String
-        /// </summary>
-        public string AsString() => Output.ToString();
-
-        /// <summary>
-        /// Write output to given file name (fname)
-        /// </summary>
-        public IndentTextWriter SaveAs(string fname) {
-            File.WriteAllText(fname, AsString());
-            return this;
-        }
+        
 
         // Blocks ---------------------------------------------------
 
@@ -155,7 +156,7 @@ namespace Psw.TextWriters
 
         // HTML Utilities -------------------------------------------
 
-        /// <group>HTML Utilities</group>
+        /// <group>HTML</group>
         /// <summary>
         /// Write Html formated output where content is indented and wrapped in the given tag (with optional attributes)<br/>
         /// - If content is null: then the empty tag be written on a single line + newline.
