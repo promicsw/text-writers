@@ -1,6 +1,6 @@
 # Indent Text Writer
 
-A text writer for structured text generation with automatic indentation and HTML tag management via a fluent API:
+A text writer for structured text generation with automatic indentation and HTML tag management via a fluent C# API:
 - Text is output to an internal or external StringBuffer.
 - May be further extended to generate any kind of structured output.
 

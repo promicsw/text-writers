@@ -1,6 +1,6 @@
 # class IndentTextWriter
 
-Provides a text writer for structured text generation with automatic indentation and HTML tag management via a fluent API:
+A text writer for structured text generation with indentation and HTML tag management via a fluent C# API:
 - Text is output to an internal or external StringBuffer.
 - May be further extended to generate any kind of structured output.
 
@@ -21,11 +21,11 @@ Provides a text writer for structured text generation with automatic indentation
 |`M: IndentTextWriter W(string text = "")`|Type-saver alias for Write: Write text to Output with automated indentation if applicable.<br/>|
 |`M: IndentTextWriter WL(string text = "")`|Type-saver alias for WriteLine: Write text and newline to output with automated indentation if applicable.<br/>|
 |`M: IndentTextWriter NL()`|Type-saver for WriteLine("").<br/>|
-|`M: IndentTextWriter Replace(string oldValue, string? newValue)`|Replace all occurrences of oldValue with newValue (newValue: "" or null to just remove oldValue)<br/>|
+|`M: IndentTextWriter Replace(string oldValue, string newValue)`|Replace all occurrences of oldValue with newValue (newValue: "" or null to just remove oldValue)<br/>|
 |`M: IndentTextWriter QuoteText(string text, bool escape = true)`|Write operation enclosing text withing quotes ".." optionally escaping the " character as &#92;"<br/>|
 |`M: string EscapeText(string text)`|Return given text string with any " characters escaped as &#92;"<br/>|
 |**Blocks:**||
-|`M: IndentTextWriter Block(string open, string close, Action<IndentTextWriter> content)`|Write content (indented) and wrapped by the block open and close strings:<br/>- If content is null: then the open and close will be written on a single line + newline<br/><br/>**Parameters:**<br/><code>open:</code> Block opening text (typically "\{")<br/><code>close:</code> Block closing text (typically "\}")<br/><code>content:</code> Build the nested content<br/>|
+|`M: IndentTextWriter Block(string open, string close, Action<IndentTextWriter> content)`|Write content (indented) and wrapped by the block open and close strings:<br/>- Writes: open + indent + content + outdent + close + newline <br/>- If content is null writes: open + close + newline<br/><br/>**Parameters:**<br/><code>open:</code> Block opening text (typically "\{")<br/><code>close:</code> Block closing text (typically "\}")<br/><code>content:</code> Build the nested content<br/>|
 |`M: IndentTextWriter BlockCurly(Action<IndentTextWriter> content)`|Equivalent to: Block("\{", "\}", content)<br/>|
 |`M: IndentTextWriter BlockSquare(Action<IndentTextWriter> content)`|Equivalent to: Block("[", "]", content)<br/>|
 |**HTML:**||

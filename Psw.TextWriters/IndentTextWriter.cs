@@ -3,12 +3,15 @@
 // Licensed under the MIT License (MIT).
 // -----------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Psw.TextWriters
 {
     /// <summary>
-    /// Provides a text writer for structured text generation with automatic indentation and HTML tag management via a fluent API:
+    /// A text writer for structured text generation with indentation and HTML tag management via a fluent C# API:
     /// - Text is output to an internal or external StringBuffer.
     /// - May be further extended to generate any kind of structured output.
     /// </summary>
@@ -111,7 +114,7 @@ namespace Psw.TextWriters
         /// <summary>
         /// Replace all occurrences of oldValue with newValue (newValue: "" or null to just remove oldValue)
         /// </summary>
-        public IndentTextWriter Replace(string oldValue, string? newValue) { Output.Replace(oldValue, newValue); return this; }
+        public IndentTextWriter Replace(string oldValue, string newValue) { Output.Replace(oldValue, newValue); return this; }
 
         /// <summary>
         /// Write operation enclosing text withing quotes ".." optionally escaping the " character as &#92;" 
@@ -130,7 +133,8 @@ namespace Psw.TextWriters
         /// <group>Blocks</group>
         /// <summary>
         /// Write content (indented) and wrapped by the block open and close strings:<br/>
-        /// - If content is null: then the open and close will be written on a single line + newline
+        /// - Writes: open + indent + content + outdent + close + newline 
+        /// - If content is null writes: open + close + newline<br/>
         /// </summary>
         /// <param name="open">Block opening text (typically "{")</param>
         /// <param name="close">Block closing text (typically "}") </param>

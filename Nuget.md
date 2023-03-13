@@ -1,13 +1,12 @@
-Provides a text writer for structured text generation with automatic indentation management via a fluent API:
+A text writer for structured text generation with automatic indentation and HTML tag management via a fluent C# API:
 - Text is output to an internal or external StringBuffer.
-- Includes some methods for writing structured HTML with automatic tag management.
 - May be further extended to generate any kind of structured output.
-
-
 
 ## Example text writing:
 ```csharp
-void WriterSample() {
+using Psw.TextWriters;
+
+void BasicSample() {
     var w = new IndentTextWriter();
     w.WL("class ClassName")
      .WL("{").Indent()
@@ -20,6 +19,21 @@ void WriterSample() {
 
     Console.WriteLine(w.AsString());
 }
+
+// Same as BasicSample using the Block methods
+void BlockSample() {
+    var w = new IndentTextWriter();
+    w.WL("class ClassName")
+     .BlockCurly(b => b
+         .WL("public int SomeValue { get; set; }")
+         .WL()
+         .W("public int SomeMethod(int value) ")
+         .BlockCurly(b => b.WL("return value * 2;"))
+     );
+
+    Console.WriteLine(w.AsString());
+}
+
 ```
 Output of the above:
 ```con
@@ -34,7 +48,7 @@ class ClassName
 ```
 Sample Html writing:
 ```csharp
-void WriterHtmlSample() {
+void HtmlSample() {
     var w = new IndentTextWriter();
     w.HtmlTag("div", "class='some-class'", c =>
         c.HtmlLineTag("p", "Some paragraph text")

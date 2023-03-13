@@ -1,17 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Text Writer</Title>
     <Authors>Andre Pretorius</Authors>
     <Company>Promic Software</Company>
-    <Description>Text writer for structured text generation with indentation and HTML tag management via a fluent API.</Description>
+    <Description>Text-Writer for structured text generation with indentation and HTML tag management via a fluent C# API.</Description>
     <Copyright>2023 Promic Software</Copyright>
     <PackageReadmeFile>Nuget.md</PackageReadmeFile>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/promicsw/text-writers</PackageProjectUrl>
     <RepositoryUrl>https://github.com/promicsw/text-writers</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
