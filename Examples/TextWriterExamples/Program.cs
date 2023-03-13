@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------------
-// Copyright (c) Promic Software. All rights reserved.
+// Copyright (c) 2023 Promic Software. All rights reserved.
 // Licensed under the MIT License (MIT).
 // -----------------------------------------------------------------------------
 
