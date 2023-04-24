@@ -17,7 +17,6 @@ namespace Psw.TextWriters
     /// </summary>
     public class IndentTextWriter
     {
-
         /// <group>Constructor</group>
         /// <summary>
         /// Constructor with default settings for output StringBuilder and indent size
@@ -62,7 +61,7 @@ namespace Psw.TextWriters
             if (indent == -1) indent = IndentSize;
             _indent += indent;
             _indentStack.Push(indent);
-            if (!IsNewLine) NL();
+            if (!IsNewLine) Newline();
             return this;
         }
 
@@ -73,7 +72,7 @@ namespace Psw.TextWriters
         public IndentTextWriter Outdent(int count = 1) {
             int repeat = count < 0 || count > _indentStack.Count ? _indentStack.Count : count;
             while (repeat-- > 0) _indent -= _indentStack.Pop();
-            if (!IsNewLine) NL();
+            if (!IsNewLine) Newline();
             return this;
         }
 
@@ -97,19 +96,9 @@ namespace Psw.TextWriters
         }
 
         /// <summary>
-        /// Type-saver alias for Write: Write text to Output with automated indentation if applicable.
+        /// Equivalent to WriteLine("").
         /// </summary>
-        public IndentTextWriter W(string text = "") => Write(text);
-
-        /// <summary>
-        /// Type-saver alias for WriteLine: Write text and newline to output with automated indentation if applicable.
-        /// </summary>
-        public IndentTextWriter WL(string text = "") => WriteLine(text);
-
-        /// <summary>
-        /// Type-saver for WriteLine("").
-        /// </summary>
-        public IndentTextWriter NL() => WriteLine();
+        public IndentTextWriter Newline() => WriteLine();
 
         /// <summary>
         /// Replace all occurrences of oldValue with newValue (newValue: "" or null to just remove oldValue)
@@ -119,32 +108,44 @@ namespace Psw.TextWriters
         /// <summary>
         /// Write operation enclosing text withing quotes ".." optionally escaping the " character as &#92;" 
         /// </summary>
-        public IndentTextWriter QuoteText(string text, bool escape = true) => Write($"\"{(escape ? EscapeText(text) : text)}\"");
+        public IndentTextWriter QuoteText(string text, bool escape = true) => Write($"\"{(escape ? IndentTextWriter.EscapeText(text) : text)}\"");
 
         /// <summary>
         /// Return given text string with any " characters escaped as &#92;" 
         /// </summary>
-        public string EscapeText(string text) => text.Replace("\"", "\\\"");
+        public static string EscapeText(string text) => text.Replace("\"", "\\\"");
 
-        
+
 
         // Blocks ---------------------------------------------------
 
-        /// <group>Blocks</group>
+        /// <group>Block Writing</group>
         /// <summary>
-        /// Write content (indented) and wrapped by the block open and close strings:<br/>
-        /// - Writes: open + indent + content + outdent + close + newline 
+        /// Write indented content:<br/>
+        /// - Writes: newline + indent + content + outdent + newline<br/> 
+        /// </summary>
+        /// <param name="content">Build the nested content</param>
+        public IndentTextWriter WriteIndent(Action<IndentTextWriter> content) {
+            Indent();
+            content?.Invoke(this);
+            Outdent();
+            return this;
+        }
+
+        /// <summary>
+        /// Write indented content wrapped by the block open and close strings:<br/>
+        /// - Writes: open + newline + indent + content + outdent + newline + close + newline<br/> 
         /// - If content is null writes: open + close + newline<br/>
         /// </summary>
         /// <param name="open">Block opening text (typically "{")</param>
         /// <param name="close">Block closing text (typically "}") </param>
         /// <param name="content">Build the nested content</param>
         public IndentTextWriter Block(string open, string close, Action<IndentTextWriter> content) {
-            if (content == null) WL($"{open}{close}");
+            if (content == null) WriteLine($"{open}{close}");
             else {
-                WL(open).Indent();
+                WriteLine(open).Indent();
                 content?.Invoke(this);
-                Outdent().WL(close);
+                Outdent().WriteLine(close);
             }
             return this;
         }
@@ -160,16 +161,18 @@ namespace Psw.TextWriters
 
         // HTML Utilities -------------------------------------------
 
-        /// <group>HTML</group>
+        protected static string TagAttrString(string attributes) => string.IsNullOrEmpty(attributes) ? "" : $" {attributes}";
+
+        /// <group>HTML Writing</group>
         /// <summary>
         /// Write Html formated output where content is indented and wrapped in the given tag (with optional attributes)<br/>
-        /// - If content is null: then the empty tag be written on a single line + newline.
+        /// - If content is null: then the empty tag will be written on a single line + newline.
         /// </summary>
         /// <param name="tag">Wrap content in the given tag with indenting</param>
-        /// <param name="attributes">Optional attributes for the opening tag</param>
+        /// <param name="attributes">Optional attributes for the opening tag ("" or null for none)</param>
         /// <param name="content">Build the nested content</param>
         public IndentTextWriter HtmlTag(string tag, string attributes, Action<IndentTextWriter> content = null)
-            => Block($"<{tag}{(!string.IsNullOrEmpty(attributes) ? $" {attributes}" : "")}>", $"</{tag}>", content);
+            => Block($"<{tag}{TagAttrString(attributes)}>", $"</{tag}>", content);
 
 
         /// <summary>
@@ -186,17 +189,19 @@ namespace Psw.TextWriters
         /// </summary>
         /// <param name="tag">Wrap content in the given tag (on a single line)</param>
         /// <param name="content">Text content to wrap in tag</param>
-        /// <param name="attributes">Optional attributes for the opening tag (default = null)</param>
+        /// <param name="attributes">Optional attributes for the opening tag (default = none)</param>
         public IndentTextWriter HtmlLineTag(string tag, string content, string attributes = null) {
-            WL($"<{tag}{(!string.IsNullOrEmpty(attributes) ? $" {attributes}" : "")}>{content}</{tag}>");
+            WriteLine($"<{tag}{TagAttrString(attributes)}>{content}</{tag}>");
             return this;
         }
 
         /// <summary>
         /// Write a Html self-closing tag with optional attributes (e.g &lt;hr>)
         /// </summary>
+        /// <param name="tag">Self closing tag</param>
+        /// <param name="attributes">Optional attributes for the opening tag ("" or null for none)</param>
         public IndentTextWriter HtmlSelfClosingTag(string tag, string attributes) {
-            WL($"<{tag}{(!string.IsNullOrEmpty(attributes) ? $" {attributes}" : "")}>");
+            WriteLine($"<{tag}{TagAttrString(attributes)}>");
             return this;
         }
 

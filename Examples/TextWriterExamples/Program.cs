@@ -11,26 +11,26 @@ HtmlSample();
 
 void BasicSample() {
     var w = new IndentTextWriter();
-    w.WL("class ClassName")
-     .WL("{").Indent()
-     .WL("public int SomeValue { get; set; }")
-     .WL()
-     .WL("public int SomeMethod(int value) {").Indent()
-     .WL("return value * 2;")
-     .Outdent().WL("}")
-     .Outdent().WL("}");
+    w.WriteLine("class ClassName")
+     .WriteLine("{").Indent()
+     .WriteLine("public int SomeValue { get; set; }")
+     .WriteLine()
+     .WriteLine("public int SomeMethod(int value) {").Indent()
+     .WriteLine("return value * 2;")
+     .Outdent().WriteLine("}")
+     .Outdent().WriteLine("}");
 
     Console.WriteLine(w.AsString());
 }
 
 void BlockSample() {
     var w = new IndentTextWriter();
-    w.WL("class ClassName")
+    w.WriteLine("class ClassName")
      .BlockCurly(b => b
-         .WL("public int SomeValue { get; set; }")
-         .WL()
-         .W("public int SomeMethod(int value) ")
-         .BlockCurly(b => b.WL("return value * 2;"))
+         .WriteLine("public int SomeValue { get; set; }")
+         .WriteLine()
+         .Write("public int SomeMethod(int value) ")
+         .BlockCurly(b => b.WriteLine("return value * 2;"))
      );
 
     Console.WriteLine(w.AsString());
@@ -38,9 +38,9 @@ void BlockSample() {
 
 void HtmlSample() {
     var w = new IndentTextWriter();
-    w.HtmlTag("div", "class='some-class'", c =>
-        c.HtmlLineTag("p", "Some paragraph text")
-         .HtmlTag("div", c => c.WL("Inner text"))
+    w.HtmlTag("div", "class='some-class'", c => c
+        .HtmlLineTag("p", "Some paragraph text")
+        .HtmlTag("div", c => c.WriteLine("Inner text"))
     );
     Console.WriteLine(w.AsString());
 }
