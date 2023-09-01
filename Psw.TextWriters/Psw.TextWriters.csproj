@@ -17,6 +17,7 @@
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageTags>text-writer;C#;</PackageTags>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageOutputPath>d:\PromicSW_GitHub\LocalNuget\</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
