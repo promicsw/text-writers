@@ -5,9 +5,10 @@
 
 using Psw.TextWriters;
 
-BasicSample();
-BlockSample();
-HtmlSample();
+//BasicSample();
+//BlockSample();
+//HtmlSample();
+MarkdownSample();
 
 void BasicSample() {
     var w = new IndentTextWriter();
@@ -43,4 +44,38 @@ void HtmlSample() {
         .HtmlTag("div", c => c.WriteLine("Inner text"))
     );
     Console.WriteLine(w.AsString());
+}
+
+void MarkdownSample() {
+    var w = new IndentTextWriter();
+    w.WriteLine("# Markdown Writer")
+     .Write("This is ").MdBold("bold").MdLB()
+     .Write("This is ").MdItalic("italic").MdLB()
+     .Write("This is ").MdBoldItalic("bold and italic").MdLB()
+     .Write("This is ").MdCode("code").NewLine(2)
+     .Write("Link: ").MdLink("link title", "https://www.example.com").MdLB()
+     .Write("Image: ").MdImage("alt text", "/assets/images/san-juan-mountains.jpg").MdLB()
+     .Write("Image with title: ").MdImage("alt text", "/assets/images/san-juan-mountains.jpg", "San Juan Mountains").MdLB()
+     .Write("LinkImage: ").MdLinkImage("alt text", "mountains.jpg", "https://www.pics.com/mountains", "Mountains").MdLB();
+
+    w.NewLine().WriteLine("## Markdown Table")
+     .MdTableHeader("LCR", "Left", "Center", "Right")
+     .MdTableRow("Col 1 Row 1", "Col 2 Row 1", "Col 3 Row 1")
+     .MdTableRow("Col 1 Row 2", "Col 2 Row 2", "Col 3 Row 2")
+     .MdTableRow(
+        c => c.Write("This is ").MdBold("bold").MdBr()
+              .Write("Bold Link: ").MdBold(m => m.MdLink("bold link title", "https://www.example.com")),
+        c => c.Write("This is ").MdItalic("italic"),
+        c => c.Write("Link: ").MdLink("link title", "https://www.example.com")
+      );
+
+    w.NewLine(2).WriteLine("## Badges")
+     .MdBadgeNugetV("SoftCircuits.Silk").NewLine().MdBadgeNugetDt("SoftCircuits.Silk").NewLine()
+     .MdBadgeCSharp().NewLine().MdBadgeLicenseMIT().NewLine()
+     .MdBadge("subject", "status", "pink");
+
+    Console.WriteLine(w.AsString());
+
+    var outPath = @"D:\PromicSW_GitHub\TextWriters\Examples\TextWriterExamples\Output\";
+    w.SaveAs(outPath + "mdsample.md");
 }

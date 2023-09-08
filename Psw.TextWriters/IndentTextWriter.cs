@@ -11,7 +11,7 @@ using System.Text;
 namespace Psw.TextWriters
 {
     /// <summary>
-    /// A text writer for structured text generation with indentation and HTML tag management via a fluent C# API:
+    /// A text writer for structured text generation incorporating indentation and HTML tag management via a fluent API:
     /// - Text is output to an internal or external StringBuffer.
     /// - May be further extended to generate any kind of structured output.
     /// </summary>
@@ -61,7 +61,7 @@ namespace Psw.TextWriters
             if (indent == -1) indent = IndentSize;
             _indent += indent;
             _indentStack.Push(indent);
-            if (!IsNewLine) Newline();
+            if (!IsNewLine) NewLine();
             return this;
         }
 
@@ -72,7 +72,7 @@ namespace Psw.TextWriters
         public IndentTextWriter Outdent(int count = 1) {
             int repeat = count < 0 || count > _indentStack.Count ? _indentStack.Count : count;
             while (repeat-- > 0) _indent -= _indentStack.Pop();
-            if (!IsNewLine) Newline();
+            if (!IsNewLine) NewLine();
             return this;
         }
 
@@ -96,9 +96,18 @@ namespace Psw.TextWriters
         }
 
         /// <summary>
-        /// Equivalent to WriteLine("").
+        /// Write given number of newlines.
         /// </summary>
-        public IndentTextWriter Newline() => WriteLine();
+        public IndentTextWriter NewLine(int noof = 1) {
+            while (noof-- > 0) WriteLine();
+            return this;
+        }
+
+        /// <summary>
+        /// Query if last write operation ended with a new line
+        /// </summary>
+        public bool IsNewLine { get; private set; }
+
 
         /// <summary>
         /// Replace all occurrences of oldValue with newValue (newValue: "" or null to just remove oldValue)
@@ -115,7 +124,28 @@ namespace Psw.TextWriters
         /// </summary>
         public static string EscapeText(string text) => text.Replace("\"", "\\\"");
 
+        /// <summary>
+        /// Escape all of the escapeChars in text (by inserting a &#92; before the character).
+        /// </summary>
+        public static string EscapeChars(string escapeChars, string text) {
+            foreach (char c in escapeChars) {
+                if (text.Contains($"{c}")) text = text.Replace($"{c}", $"\\{c}");
+            }
+            return text;
+        }
 
+        // Wrapping ---------------------------------------------------
+
+        /// <summary>
+        /// Wrap content with the open and close strings:<br/>
+        /// - Writes: open + content + close 
+        /// </summary>
+        public IndentTextWriter Wrap(string open, string close, Action<IndentTextWriter> content) {
+            Write(open);
+            content?.Invoke(this);
+            Write(close);
+            return this;
+        }
 
         // Blocks ---------------------------------------------------
 
@@ -160,7 +190,7 @@ namespace Psw.TextWriters
         public IndentTextWriter BlockSquare(Action<IndentTextWriter> content) => Block("[", "]", content);
 
         // HTML Utilities -------------------------------------------
-
+        /***
         protected static string TagAttrString(string attributes) => string.IsNullOrEmpty(attributes) ? "" : $" {attributes}";
 
         /// <group>HTML Writing</group>
@@ -205,16 +235,18 @@ namespace Psw.TextWriters
             return this;
         }
 
+        /// <summary>
+        /// Write an anchor element of the form: &lt;a id="anchorID"&gt;&lt;/a&gt;
+        /// </summary>
+        public IndentTextWriter HtmlAnchor(string anchorID) { Write($"<a id=\"{anchorID}\"></a>"); return this; }
+        ***/
+
         // Private Implementation -----------------------------------
 
         private Stack<int> _indentStack = new Stack<int>();
         private int _indent = 0;
 
-        /// <summary>
-        /// Query if last write operation ended with a new line
-        /// </summary>
-        protected bool IsNewLine { get; private set; }
-
+        
         /// <summary>
         /// If just after a new line - add spaces for indent
         /// </summary>
