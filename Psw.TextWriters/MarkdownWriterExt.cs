@@ -11,19 +11,19 @@ using System.Text;
 namespace Psw.TextWriters
 {
     /// <summary>
-    /// IdentTextWriter extensions for Markdown writing.
+    /// IdentTextWriter extensions for essential Markdown writing.
     /// </summary>
     public static class MarkdownWriterExt
     {
         /// <group>Basic Markdown</group>
         /// <summary>
         /// Escape all markdown characters in given text (by inserting a &#92; before the character):<br/>
-        /// - Call this static method as MarkdownWriterExt.MdEscape(...)
+        /// - Call this static method as MarkdownWriterExt.MdEscape(...).
         /// </summary>
-        /// <param name="text">Text to escape</param>
-        /// <param name="escapeChars">Characters to escape</param>
+        /// <param name="text">Text to escape.</param>
+        /// <param name="escapeChars">Characters to escape.</param>
         /// <returns>Escaped text</returns>
-        //public static string MdEscape(string text, string escapeChars="\\`*_{}[]<>()#+-.!|") => IndentTextWriter.EscapeChars(escapeChars, text);
+        public static string MdEscape(string text, string escapeChars="\\`*_{}[]<>()#+-.!|") => IndentTextWriter.EscapeText(escapeChars, text);
 
         /// <group>Basic Markdown</group>
         /// <summary>
@@ -42,7 +42,7 @@ namespace Psw.TextWriters
         public static IndentTextWriter MdLB(this IndentTextWriter w) => w.WriteLine("  ");
 
         /// <summary>
-        /// Creates a HTML anchor element with given anchorID - for in-page navigation : &lt;a id="anchorID"&gt;&lt;/a&gt;.
+        /// Creates a HTML anchor element with given anchorID (for in-page navigation) : &lt;a id="anchorID"&gt;&lt;/a&gt;.
         /// </summary>
         public static IndentTextWriter MdAnchor(this IndentTextWriter w, string anchorID) => w.HtmlAnchor(anchorID);
 
@@ -57,7 +57,7 @@ namespace Psw.TextWriters
         public static IndentTextWriter MdBold(this IndentTextWriter w, Action<IndentTextWriter> content) => w.Wrap("**", "**", content);
 
         /// <summary>
-        /// Wraps text in Bold markdown.
+        /// Wraps text in Italic markdown.
         /// </summary>
         public static IndentTextWriter MdItalic(this IndentTextWriter w, string text) => w.Write($"*{text}*");
         /// <summary>
@@ -77,14 +77,24 @@ namespace Psw.TextWriters
         public static IndentTextWriter MdBoldItalic(this IndentTextWriter w, Action<IndentTextWriter> content) => w.Wrap("***", "***", content);
 
         /// <summary>
-        /// Wraps text in Code markdown.
+        /// Wraps text in Code markdown with single back tick.
         /// </summary>
         public static IndentTextWriter MdCode(this IndentTextWriter w, string text) => w.Write($"`{text}`");
         /// <summary>
-        /// Wraps content in Code markdown.
+        /// Wraps content in Code markdown with single back tick.
         /// </summary>
         /// <param name="content">Delegate to build the content.</param>
         public static IndentTextWriter MdCode(this IndentTextWriter w, Action<IndentTextWriter> content) => w.Wrap("`", "`", content);
+        /// <summary>
+        /// Wraps text in Code markdown with double back ticks (use if text contains any back ticks).
+        /// </summary>
+        public static IndentTextWriter MdCode2(this IndentTextWriter w, string text) => w.Write($"``{text}``");
+        /// <summary>
+        /// Wraps content in Code markdown with double back ticks (use if content contains any back ticks).
+        /// </summary>
+        /// <param name="content">Delegate to build the content.</param>
+        public static IndentTextWriter MdCode2(this IndentTextWriter w, Action<IndentTextWriter> content) => w.Wrap("``", "``", content);
+
 
         /// <summary>
         /// Markdown for a link.
@@ -100,8 +110,8 @@ namespace Psw.TextWriters
         /// Markdown for an Image.
         /// </summary>
         /// <param name="altText">Image alt-text (i.e. if image can't be displayed).</param>
-        /// <param name="imagePathOrUrl">Path or Url to image</param>
-        /// <param name="title">Optional image tooltip title.</param>
+        /// <param name="imagePathOrUrl">Path or Url to image.</param>
+        /// <param name="title">Optional image tool-tip title.</param>
         public static IndentTextWriter MdImage(this IndentTextWriter w, string altText, string imagePathOrUrl, string title = null)  
             => w.Write(_ImageMd(altText, imagePathOrUrl, title));
 
@@ -109,7 +119,7 @@ namespace Psw.TextWriters
         /// Markdown for a Image and Link. 
         /// </summary>
         /// <param name="altText">Image alt-text (i.e. if image can't be displayed).</param>
-        /// <param name="imagePathOrUrl">Path or Url to image</param>
+        /// <param name="imagePathOrUrl">Path or Url to image.</param>
         /// <param name="imageLinkUrl">Url for the image link.</param>
         /// <param name="title">Optional image tool-tip title.</param>
         public static IndentTextWriter MdLinkImage(this IndentTextWriter w, string altText, string imagePathOrUrl, string imageLinkUrl, string title = null)
@@ -119,12 +129,12 @@ namespace Psw.TextWriters
 
         /// <group>Table building</group>
         /// <summary>
-        /// Markdown for the table header.
+        /// Markdown for a table header.
         /// </summary>
         /// <param name="align">
         /// String of alignment characters for each column: L = left, C = Center, R = Right.
         /// </param>
-        /// <param name="headers">Header for each column (as variable number or arguments)</param>
+        /// <param name="headers">Header for each column (as a variable number or arguments).</param>
         public static IndentTextWriter MdTableHeader(this IndentTextWriter w, string align, params string[] headers) {
             bool first = true;
             foreach (var h in headers) {
@@ -152,20 +162,20 @@ namespace Psw.TextWriters
         /// Markdown for a column with given text (writes: "| text |" if first else "space text |")<br/>
         /// - Add a newline after the last column to complete a row.
         /// </summary>
-        /// <param name="first">Set to true if this is the first column</param>
+        /// <param name="first">Set to true if this is the first column.</param>
         public static IndentTextWriter MdTableCol(this IndentTextWriter w, string text, bool first = false) => w.MdTableCol(t => t.Write(text), first);
         /// <summary>
         /// Markdown for a column with given content (writes: "| content |" if first else "space content |")<br/>
         /// - Add a newline after the last column to complete a row.
         /// </summary>
         /// <param name="content">Delegate to build the content.</param>
-        /// <param name="first">Set to true if this is the first column</param>
+        /// <param name="first">Set to true if this is the first column.</param>
         public static IndentTextWriter MdTableCol(this IndentTextWriter w, Action<IndentTextWriter> content, bool first = false) => w.Wrap(first ? "| " : " ", " |", content);
 
         /// <summary>
         /// Markdown for a complete table row with a delegate to build the content for each column.
         /// </summary>
-        /// <param name="cols">Delegate to build the content for each column (as variable number or arguments).</param>
+        /// <param name="cols">Delegate to build the content for each column (as a variable number or arguments).</param>
         public static IndentTextWriter MdTableRow(this IndentTextWriter w, params Action<IndentTextWriter>[] cols) {
             bool first = true;
             foreach (var col in cols) {
@@ -177,9 +187,9 @@ namespace Psw.TextWriters
         }
 
         /// <summary>
-        /// Markdown for a complete table row with the text for each column.
+        /// Markdown for a complete table row with given text for each column.
         /// </summary>
-        /// <param name="cols">Text for each column (as variable number or arguments).</param>
+        /// <param name="cols">Text for each column (as a variable number or arguments).</param>
         public static IndentTextWriter MdTableRow(this IndentTextWriter w, params string[] cols) {
             bool first = true;
             foreach (string col in cols) {
@@ -199,35 +209,34 @@ namespace Psw.TextWriters
         /// Create a generic badge with: subject, status and color:<br/>
         /// - E.g. "Tests", "Passing", "green"
         /// </summary>
-        /// <param name="w"></param>
-        /// <param name="subject">Badge subject</param>
-        /// <param name="status">Subject status</param>
-        /// <param name="color">Color name</param>
+        /// <param name="subject">Badge subject.</param>
+        /// <param name="status">Subject status.</param>
+        /// <param name="color">Color name.</param>
         public static IndentTextWriter MdBadge(this IndentTextWriter w, string subject, string status, string color = "blue", string style = "flat")
             => w.Write($"[![Generic bandge](https://img.shields.io/badge/{subject}-{status}-{color}.svg?style={style})](https://shields.io/)");
 
         /// <summary>
         /// Create a Nuget Version badge (auto retrieves the version from Nuget).
         /// </summary>
-        /// <param name="packageName">Full name of package on Nuget</param>
+        /// <param name="packageName">Full name of package on Nuget.</param>
         public static IndentTextWriter MdBadgeNugetV(this IndentTextWriter w, string packageName, string style = "flat")
             => w.Write($"[![Nuget](https://img.shields.io/nuget/v/{packageName}?style={style})](https://www.nuget.org/packages/{packageName}/)");
 
         /// <summary>
         /// Create a Nuget Downloads badge (auto retrieves the downloads from Nuget).
         /// </summary>
-        /// <param name="packageName">Full name of package on Nuget</param>
+        /// <param name="packageName">Full name of package on Nuget.</param>
         public static IndentTextWriter MdBadgeNugetDt(this IndentTextWriter w, string packageName, string style = "flat")
            => w.Write($"[![Nuget](https://img.shields.io/nuget/dt/{packageName}?style={style})](https://www.nuget.org/packages/{packageName}/)");
 
         /// <summary>
-        /// Creates a C# badge
+        /// Create a C# badge
         /// </summary>
         public static IndentTextWriter MdBadgeCSharp(this IndentTextWriter w, string style = "flat")
             => w.Write($"![C#](https://img.shields.io/badge/c%23-%23239120.svg?style={style}&logo=c-sharp&logoColor=white)");
 
         /// <summary>
-        /// Creates a MIT license badge.
+        /// Create a MIT license badge.
         /// </summary>
         public static IndentTextWriter MdBadgeLicenseMIT(this IndentTextWriter w, string style = "flat")
             => w.Write($"[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg?style={style})](https://lbesson.mit-license.org/)");

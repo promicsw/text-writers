@@ -1,11 +1,17 @@
 # Indent Text Writer
 
-A text writer for structured text generation with automatic indentation and HTML tag management via a fluent C# API:
+A Text Writer, with a fluent API, for structured text generation incorporating:
+- Automatic Indentation management.
+- Extensions for HTML writing with tag management.
+- Extensions for essential Markdown writing.
 - Text is output to an internal or external StringBuffer.
 - May be further extended to generate any kind of structured output.
-
-
 - [IndentTextWriter](Docs/IndentTextWriter.md): Reference document.
+
+[![Nuget](https://img.shields.io/nuget/v/Psw.TextWriters?style=flat)](https://www.nuget.org/packages/Psw.TextWriters/)
+
+<!--[![Nuget](https://img.shields.io/nuget/dt/Psw.TextWriters?style=flat)](https://www.nuget.org/packages/Psw.TextWriters/)-->
+
 
 <!--
 [![NuGet version (SoftCircuits.Silk)](https://img.shields.io/nuget/v/SoftCircuits.Silk.svg?style=flat-square)](https://www.nuget.org/packages/SoftCircuits.Silk/) -->
@@ -56,7 +62,9 @@ class ClassName
     }
 }
 ```
-Sample Html writing:
+
+## Sample Html writing:
+
 ```csharp
 void HtmlSample() {
     var w = new IndentTextWriter();
@@ -76,4 +84,65 @@ Output of above:
     </div>
 </div>
 ```
+## Sample Markdown writing:
+```csharp
+void MarkdownSample() {
+    var w = new IndentTextWriter();
+    w.WriteLine("# Markdown output:")
+     .Write("This is ").MdBold("bold").MdLB()
+     .Write("This is ").MdItalic("italic").MdLB()
+     .Write("This is ").MdBoldItalic("bold and italic").MdLB()
+     .Write("This is ").MdCode("code").NewLine(2)
+     .Write("Link: ").MdLink("link title", "https://www.example.com").MdLB()
+     .Write("Image: ").MdImage("alt text", "/assets/images/san-juan-mountains.jpg").MdLB()
+     .Write("Image with title: ").MdImage("alt text", "/assets/images/san-juan-mountains.jpg", "San Juan Mountains").MdLB()
+     .Write("LinkImage: ").MdLinkImage("alt text", "mountains.jpg", "https://www.pics.com/mountains", "Mountains").MdLB();
+
+    w.NewLine().WriteLine("## Markdown Table")
+     .MdTableHeader("LCR", "Left", "Center", "Right")
+     .MdTableRow("Col 1 Row 1", "Col 2 Row 1", "Col 3 Row 1")
+     .MdTableRow("Col 1 Row 2", "Col 2 Row 2", "Col 3 Row 2")
+     .MdTableRow(
+        c => c.Write("This is ").MdBold("bold").MdBr()
+              .Write("Bold Link: ").MdBold(m => m.MdLink("bold link title", "https://www.example.com")),
+        c => c.Write("This is ").MdItalic("italic"),
+        c => c.Write("Link: ").MdLink("link title", "https://www.example.com")
+      );
+
+    w.NewLine(2).WriteLine("## Badges")
+     .MdBadgeNugetV("Psw.TextWriters").NewLine().MdBadgeNugetDt("Psw.TextWriters").NewLine()
+     .MdBadgeCSharp().NewLine().MdBadgeLicenseMIT().NewLine()
+     .MdBadge("subject", "status", "pink");
+
+    Console.WriteLine(w.AsString());
+```
+Output of above:
+```
+# Markdown output:
+This is **bold**
+This is *italic*
+This is ***bold and italic***
+This is `code`
+
+Link: [link title](https://www.example.com)
+Image: ![alt text](/assets/images/san-juan-mountains.jpg)
+Image with title: ![alt text](/assets/images/san-juan-mountains.jpg "San Juan Mountains")
+LinkImage: [![alt text](mountains.jpg "Mountains")](https://www.pics.com/mountains)
+
+## Markdown Table
+| Left | Center | Right |
+| :--- | :---: | ---: |
+| Col 1 Row 1 | Col 2 Row 1 | Col 3 Row 1 |
+| Col 1 Row 2 | Col 2 Row 2 | Col 3 Row 2 |
+| This is **bold**<br/>Bold Link: **[bold link title](https://www.example.com)** | This is *italic* | Link: [link title](https://www.example.com) |
+
+
+## Badges
+[![Nuget](https://img.shields.io/nuget/v/Psw.TextWriters?style=flat)](https://www.nuget.org/packages/Psw.TextWriters/)
+[![Nuget](https://img.shields.io/nuget/dt/Psw.TextWriters?style=flat)](https://www.nuget.org/packages/Psw.TextWriters/)
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=flat&logo=c-sharp&logoColor=white)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://lbesson.mit-license.org/)
+[![Generic bandge](https://img.shields.io/badge/subject-status-pink.svg?style=flat)](https://shields.io/)
+```
+
 

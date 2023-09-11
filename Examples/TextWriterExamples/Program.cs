@@ -5,9 +5,9 @@
 
 using Psw.TextWriters;
 
-//BasicSample();
-//BlockSample();
-//HtmlSample();
+BasicSample();
+BlockSample();
+HtmlSample();
 MarkdownSample();
 
 void BasicSample() {
@@ -48,7 +48,7 @@ void HtmlSample() {
 
 void MarkdownSample() {
     var w = new IndentTextWriter();
-    w.WriteLine("# Markdown Writer")
+    w.WriteLine("# Markdown output:")
      .Write("This is ").MdBold("bold").MdLB()
      .Write("This is ").MdItalic("italic").MdLB()
      .Write("This is ").MdBoldItalic("bold and italic").MdLB()
@@ -70,12 +70,12 @@ void MarkdownSample() {
       );
 
     w.NewLine(2).WriteLine("## Badges")
-     .MdBadgeNugetV("SoftCircuits.Silk").NewLine().MdBadgeNugetDt("SoftCircuits.Silk").NewLine()
+     .MdBadgeNugetV("Psw.TextWriters").NewLine().MdBadgeNugetDt("Psw.TextWriters").NewLine()
      .MdBadgeCSharp().NewLine().MdBadgeLicenseMIT().NewLine()
      .MdBadge("subject", "status", "pink");
 
     Console.WriteLine(w.AsString());
 
     var outPath = @"D:\PromicSW_GitHub\TextWriters\Examples\TextWriterExamples\Output\";
-    w.SaveAs(outPath + "mdsample.md");
+    //w.SaveAs(outPath + "mdsample.md");
 }

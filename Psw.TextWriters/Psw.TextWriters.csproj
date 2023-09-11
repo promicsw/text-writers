@@ -18,6 +18,7 @@
     <PackageTags>text-writer;C#;</PackageTags>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageOutputPath>d:\PromicSW_GitHub\LocalNuget\</PackageOutputPath>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
