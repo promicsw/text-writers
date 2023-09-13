@@ -206,7 +206,7 @@ namespace Psw.TextWriters
         // Styles: plastic, flat-square, flat, social, for-the-badge
 
         /// <group>Badges</group>
-        /// <groupdescr>Badge Styles: flat (default), flat-square, plastic, social, for-the-badge</groupdescr>
+        /// <groupdescr>__Badge Styles:__ flat (default), flat-square, plastic, social, for-the-badge</groupdescr>
         /// <summary>
         /// Create a generic badge with: subject, status and color:<br/>
         /// - E.g. "Tests", "Passing", "green"
