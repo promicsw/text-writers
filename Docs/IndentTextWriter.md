@@ -1,8 +1,8 @@
 # class IndentTextWriter
 A Text Writer, with a fluent API, for structured text generation incorporating:<br/>
 - Automatic Indentation management.<br/>
-- Extension for HTML writing with tag management.<br/>
-- Extension for essential Markdown writing.<br/>
+- Extensions for HTML writing with tag management.<br/>
+- Extensions for essential Markdown writing.<br/>
 - Text is output to an internal or external StringBuffer.<br/>
 - May be further extended to generate any kind of structured output.
 
@@ -50,7 +50,6 @@ IdentTextWriter extensions for essential Markdown writing.
 | Extensions | Description |
 | :---- | :------ |
 | ***Basic Markdown:*** |  |
-| ``E:  string MdEscape(string text, string escapeChars="\\`*_{}[]<>()#+-.!|")`` | Escape all markdown characters in given text (by inserting a &#92; before the character):<br/>- Call this static method as MarkdownWriterExt.MdEscape(...).<br/><br/>**Parameters:**<br/><code>text:</code> Text to escape.<br/><code>escapeChars:</code> Characters to escape.<br/><br/>**Returns:**<br/>Escaped text |
 | ``E:  MdHR(this w)`` | Markdown for a Horizontal Rule, and ensures a blank line before and after.<br/> |
 | ``E:  MdBr(this w)`` | Create a HTML break tag: &lt;br/&gt;<br/> |
 | ``E:  MdLB(this w)`` | Markdown for a Line Break by writing two spaces and a newline.<br/> |
