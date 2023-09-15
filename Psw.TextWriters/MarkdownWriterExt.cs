@@ -15,7 +15,7 @@ namespace Psw.TextWriters
     /// </summary>
     public static class MarkdownWriterExt
     {
-        
+        /**
         /// <group>Basic Markdown</group>
         /// <summary>
         /// Escape all markdown characters in given text (by inserting a &#92; before the character):<br/>
@@ -24,7 +24,7 @@ namespace Psw.TextWriters
         /// <param name="text">Text to escape.</param>
         /// <param name="escapeChars">Characters to escape.</param>
         /// <returns>Escaped text</returns>
-        
+        **/
         public static string MdEscape(string text, string escapeChars="\\`*_{}[]<>()#+-.!|") => IndentTextWriter.EscapeText(escapeChars, text);
 
         /// <group>Basic Markdown</group>
