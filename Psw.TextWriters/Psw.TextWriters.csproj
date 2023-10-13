@@ -5,23 +5,29 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Title>Text Writer</Title>
+    <Title>Structured Text Writers</Title>
     <Authors>Andre Pretorius</Authors>
     <Company>Promic Software</Company>
-    <Description>Text-Writer for structured text generation with indentation and HTML tag management via a fluent C# API.</Description>
+    <Description>Structured Text-Writer with indentation management, also incorporating  HTML and Markdown writing, via a fluent C# API. </Description>
     <Copyright>2023 Promic Software</Copyright>
     <PackageReadmeFile>Nuget.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/promicsw/text-writers</PackageProjectUrl>
     <RepositoryUrl>https://github.com/promicsw/text-writers</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <PackageTags>text-writer;C#;</PackageTags>
+    <PackageTags>text writer;indent text writer; HTML writer;</PackageTags>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageOutputPath>d:\PromicSW_GitHub\LocalNuget\</PackageOutputPath>
     <Version>1.0.1</Version>
+    <PackageIcon>PswLogo.png</PackageIcon>
+    <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\LocalNuget\Media\PswLogo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\Nuget.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
