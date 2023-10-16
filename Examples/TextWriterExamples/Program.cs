@@ -38,7 +38,7 @@ void BlockSample() {
 }
 
 void HtmlSample() {
-    var w = new IndentTextWriter();
+    var w = new IndentTextWriter().SetIndentSize(2);
     w.HtmlTag("div", "class='some-class'", c => c
         .HtmlLineTag("p", "Some paragraph text")
         .HtmlTag("div", c => c.WriteLine("Inner text"))

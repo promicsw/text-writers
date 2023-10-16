@@ -12,30 +12,47 @@ namespace Psw.TextWriters
 {
     /// <summary>
     /// A Text Writer, with a fluent API, for structured text generation incorporating:<br/>
-    /// - Automatic Indentation management.<br/>
+    /// - Automatic Indentation management (using IndenSize and IndentChar).<br/>
     /// - Extensions for HTML writing with tag management.<br/>
     /// - Extensions for essential Markdown writing.<br/>
     /// - Text is output to an internal or external StringBuffer.<br/>
     /// - May be further extended to generate any kind of structured output.
     /// </summary>
+    /// <mdoc>
+    /// > **Default Settings:** IndentSize = 4 and IndentChar = space.
+    /// </mdoc>
     public class IndentTextWriter
     {
+
         /// <group>Constructor</group>
         /// <summary>
-        /// Constructor with default settings for output and initial indent size.
+        /// Create an IndentTextWriter using an internal StringBuffer to write Output to.
         /// </summary>
-        /// <param name="output">Internal (default) or external StringBuilder where output will be written to.</param>
-        /// <param name="indentSize">Indent size (default = 4).</param>
-        public IndentTextWriter(StringBuilder output = null, int indentSize = 4) {
-            Output = output ?? new StringBuilder();
-            IndentSize = indentSize;
-        }
+        public IndentTextWriter() => Output =  new StringBuilder();
+
+        /// <summary>
+        /// Create an IndentTextWriter using an external StringBuffer to write Output to:<br/>
+        /// - Or creates an internal one of output is null.
+        /// </summary>
+        public IndentTextWriter(StringBuilder output) => Output = output ?? new StringBuilder();
+
 
         /// <group>Management</group>
         /// <summary>
-        /// Get or set the default indent size.
+        /// Get or set the Indent Size (default = 4):<br/>
+        /// - May set to 0 (or a negative value) for no indentation.<br/>
+        /// - See also: SetIndentSize.
         /// </summary>
-        public int IndentSize { get; set; }
+        public int IndentSize {
+            get => _indentSize;
+            set => _indentSize = value < 0 ? 0 : value;  // Ensure >= 0
+        }
+
+        /// <summary>
+        /// Get or set the Indent Char (default = space ' ' ):<br/>
+        /// - See also: SetIndentChar.
+        /// </summary>
+        public char IndentChar = ' ';
 
         /// <summary>
         /// Get the attached or internal Output StringBuilder.
@@ -55,13 +72,27 @@ namespace Psw.TextWriters
             return this;
         }
 
+        /// <summary>
+        /// Set the Indent Size via a fluent service (default = 4):<br/>
+        /// - May set to 0 (or a negative value) for no indentation.
+        /// </summary>
+        public IndentTextWriter SetIndentSize(int indentSize) { _indentSize = indentSize; return this; }
+
+        /// <summary>
+        /// Set the Indent Char via a fluent service (default = space ' ' ).
+        /// </summary>
+        public IndentTextWriter SetIndentChar(char indentChar) { IndentChar = indentChar; return this; }
+
         /// <group>Writing</group>
         /// <summary>
-        /// Perform an Indent with given or current (indent = -1) indent size.<br/>
+        /// Perform an Indent with the current (indent = -1) or once-off indent size.<br/>
         /// - Adds a newline if not currently at a newline.
         /// </summary>
+        /// <param name="indent">
+        /// Set to a value greater or equal to zero for a once-off override of the current IndentSize. 
+        /// </param>
         public IndentTextWriter Indent(int indent = -1) {
-            if (indent == -1) indent = IndentSize;
+            if (indent < 0) indent = _indentSize;
             _indent += indent;
             _indentStack.Push(indent);
             if (!IsNewLine) NewLine();
@@ -192,10 +223,11 @@ namespace Psw.TextWriters
         /// Equivalent to: Block("[", "]", content) 
         /// </summary>
         public IndentTextWriter BlockSquare(Action<IndentTextWriter> content) => Block("[", "]", content);
-        
+
 
         // Private Implementation -----------------------------------
 
+        private int _indentSize = 4;
         private Stack<int> _indentStack = new Stack<int>();
         private int _indent = 0;
 
@@ -205,7 +237,7 @@ namespace Psw.TextWriters
         /// </summary>
         private void _writeIndent() {
             if (IsNewLine) {
-                Output.Append(' ', _indent);
+                Output.Append(IndentChar, _indent);
                 IsNewLine = false;
             }
         }

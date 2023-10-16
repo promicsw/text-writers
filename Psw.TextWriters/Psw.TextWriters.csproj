@@ -18,7 +18,7 @@
     <PackageTags>text writer;indent text writer; HTML writer;</PackageTags>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageOutputPath>d:\PromicSW_GitHub\LocalNuget\</PackageOutputPath>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageIcon>PswLogo.png</PackageIcon>
     <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
   </PropertyGroup>

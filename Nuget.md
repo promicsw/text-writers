@@ -1,7 +1,7 @@
 # Indent Text Writer
 
 A Text Writer, with a fluent API, for structured text generation incorporating:
-- Automatic Indentation management.
+- Automatic Indentation management (configurable).
 - Extensions for HTML writing with tag management.
 - Extensions for essential Markdown writing.
 - Text is output to an internal or external StringBuffer.
@@ -56,7 +56,7 @@ class ClassName
 
 ```csharp
 void HtmlSample() {
-    var w = new IndentTextWriter();
+    var w = new IndentTextWriter().SetIndentSize(2);
     w.HtmlTag("div", "class='some-class'", c => c
         .HtmlLineTag("p", "Some paragraph text")
         .HtmlTag("div", c => c.WriteLine("Inner text"))
@@ -67,10 +67,10 @@ void HtmlSample() {
 Output of above:
 ```html
 <div class='some-class'>
-    <p>Some paragraph text</p>
-    <div>
-        Inner text
-    </div>
+  <p>Some paragraph text</p>
+  <div>
+    Inner text
+  </div>
 </div>
 ```
 ## Sample Markdown writing:

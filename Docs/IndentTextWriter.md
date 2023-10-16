@@ -1,22 +1,28 @@
 # class IndentTextWriter
 A Text Writer, with a fluent API, for structured text generation incorporating:<br/>
-- Automatic Indentation management.<br/>
+- Automatic Indentation management (using IndenSize and IndentChar).<br/>
 - Extensions for HTML writing with tag management.<br/>
 - Extensions for essential Markdown writing.<br/>
 - Text is output to an internal or external StringBuffer.<br/>
 - May be further extended to generate any kind of structured output.
 
+> **Default Settings:** IndentSize = 4 and IndentChar = space.
+
 | Members | Description |
 | :---- | :------ |
 | ***Constructor:*** |  |
-| ``C: IndentTextWriter(StringBuilder output = null, int indentSize = 4)`` | Constructor with default settings for output and initial indent size.<br/><br/>**Parameters:**<br/><code>output:</code> Internal (default) or external StringBuilder where output will be written to.<br/><code>indentSize:</code> Indent size (default = 4).<br/> |
+| ``C: IndentTextWriter()`` | Create an IndentTextWriter using an internal StringBuffer to write Output to.<br/> |
+| ``C: IndentTextWriter(StringBuilder output)`` | Create an IndentTextWriter using an external StringBuffer to write Output to:<br/>- Or creates an internal one of output is null.<br/> |
 | ***Management:*** |  |
-| ``P: int IndentSize`` | Get or set the default indent size.<br/> |
+| ``P: int IndentSize`` | Get or set the Indent Size (default = 4):<br/>- May set to 0 (or a negative value) for no indentation.<br/>- See also: SetIndentSize.<br/> |
+| ``F: char IndentChar`` | Get or set the Indent Char (default = space ' ' ):<br/>- See also: SetIndentChar.<br/> |
 | ``P: StringBuilder Output`` | Get the attached or internal Output StringBuilder.<br/> |
 | ``M: string AsString()`` | Return Output as a String.<br/> |
 | ``M: IndentTextWriter SaveAs(string fileName)`` | Write Output to given file.<br/> |
+| ``M: IndentTextWriter SetIndentSize(int indentSize)`` | Set the Indent Size via a fluent service (default = 4):<br/>- May set to 0 (or a negative value) for no indentation.<br/> |
+| ``M: IndentTextWriter SetIndentChar(char indentChar)`` | Set the Indent Char via a fluent service (default = space ' ' ).<br/> |
 | ***Writing:*** |  |
-| ``M: IndentTextWriter Indent(int indent = -1)`` | Perform an Indent with given or current (indent = -1) indent size.<br/>- Adds a newline if not currently at a newline.<br/> |
+| ``M: IndentTextWriter Indent(int indent = -1)`` | Perform an Indent with the current (indent = -1) or once-off indent size.<br/>- Adds a newline if not currently at a newline.<br/><br/>**Parameters:**<br/><code>indent:</code> Set to a value greater or equal to zero for a once-off override of the current IndentSize.<br/> |
 | ``M: IndentTextWriter Outdent(int count = 1)`` | Perform an Outdent for count number of times (count = -1 for all).<br/>- Adds a newline if not currently at a newline.<br/> |
 | ``M: IndentTextWriter Write(string text)`` | Write text to Output with automated indentation if applicable.<br/> |
 | ``M: IndentTextWriter WriteLine(string text = "")`` | Write text and newline to output with automated indentation if applicable.<br/> |
