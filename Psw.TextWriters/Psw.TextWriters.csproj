@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
+	<TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -18,9 +18,9 @@
     <PackageTags>text writer;indent text writer; HTML writer;</PackageTags>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageOutputPath>d:\PromicSW_GitHub\LocalNuget\</PackageOutputPath>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageIcon>PswLogo.png</PackageIcon>
-    <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Net 8 support added.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
